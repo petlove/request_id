@@ -3,7 +3,7 @@
 require 'spec_helper'
 require 'securerandom'
 
-describe Shoryuken::Middleware::RequestId do
+describe Shoryuken::Middleware::Server::RequestId do
   let(:middleware) { described_class.new }
 
   describe '#call' do
@@ -15,7 +15,7 @@ describe Shoryuken::Middleware::RequestId do
 
     context 'when the worker is configured to log request ids' do
       let(:request_id) { SecureRandom.hex }
-      let(:message_attributes) { { 'request_id' => request_id } }
+      let(:message_attributes) { { 'request_id' => OpenStruct.new(string_value: request_id) } }
 
       it 'sets a thread local to the request id' do
         expect(Thread.current).to receive(:[]=).with(:request_id, request_id)
