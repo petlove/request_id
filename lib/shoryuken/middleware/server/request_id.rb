@@ -26,7 +26,20 @@ module Shoryuken
         private
 
         def default_options
-          { headers: [{ key: :request_id, value: lambda { |sqs_msg| sqs_msg.message_attributes['request_id'].string_value } }] }
+          {
+            headers: [
+              {
+                key: :request_id,
+                value: ->(sqs_msg) do
+                  if sqs_msg.message_attributes['request_id']
+                    sqs_msg.message_attributes['request_id'].string_value
+                  else
+                    nil
+                  end
+                end
+              }
+            ]
+          }
         end
       end
     end

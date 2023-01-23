@@ -1,4 +1,3 @@
-require 'securerandom'
 require 'request_id/version'
 require 'request_id/sidekiq' if defined?(Sidekiq)
 require 'request_id/shoryuken' if defined?(Shoryuken)

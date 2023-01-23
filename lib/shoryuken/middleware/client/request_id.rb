@@ -6,10 +6,16 @@ module Shoryuken
       class RequestId
         def call(options)
           options[:message_attributes] ||= {}
-          options[:message_attributes][:request_id] = {
-            data_type: 'String',
-            string_value: ::RequestId.request_id || SecureRandom.hex
-          }
+
+          request_id = ::RequestId.request_id
+
+          if request_id
+            options[:message_attributes][:request_id] = {
+              data_type: 'String',
+              string_value: request_id
+            }
+          end
+
           yield
         end
       end
