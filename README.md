@@ -106,6 +106,19 @@ Sidekiq.configure_server do |config|
   end
 end
 
+# Shoryuken
+Shoryuken.configure_server do |config|
+  config.server_middleware do |chain|
+    chain.add Shoryuken::Middleware::Server::RequestId
+  end
+end
+
+Shoryuken.configure_client do |config|
+  config.client_middleware do |chain|
+    chain.add(Shoryuken::Middleware::Client::RequestId)
+  end
+end
+
 # Faraday
 builder.use Faraday::RequestId, headers: [ { key: :session_id, header: 'X-Session-Id' } ]
 ```
